@@ -1,0 +1,9 @@
+name: viral_prediction
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - anaconda
+dependencies:
+  - pandas
+  - biopython

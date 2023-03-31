@@ -1,0 +1,8 @@
+name: preprocessing
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - kneaddata
+

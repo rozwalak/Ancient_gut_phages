@@ -1,0 +1,11 @@
+name: aDNA_authentication_pydamage
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - anaconda
+dependencies:
+  - python=3.8
+  - pydamage
+  - biopython
+  - pandas

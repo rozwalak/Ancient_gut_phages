@@ -1,0 +1,23 @@
+# ~/.config/snakemake/slurm/config.yaml
+cluster:
+  mkdir -p logs/{rule}/ &&
+  sbatch
+    --job-name=smk-{rule}-{wildcards}
+    -A plgadnalabuam2022-cpu
+    --ntasks={resources.ntasks}
+    --partition={resources.partition}
+    --nodes={resources.nodes}
+    --mem={resources.mem_mb}
+    --time={resources.time}
+    --output=logs/{rule}/{wildcards}.out
+    --error=logs/{rule}/{wildcards}.err
+
+default-resources:
+  - partition="plgrid"
+  - nodes=1
+  - ntasks=2
+  - time="02:00:00"
+  - "tmpdir='$SCRATCH'"
+
+jobs: 1000
+latency-wait: 60
