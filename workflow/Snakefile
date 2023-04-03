@@ -5,15 +5,19 @@ rule all:
         expand("../results/00-raw_data/{accession}_1.fastq.gz", accession=config["accession"]),
         expand("../results/00-raw_data/{accession}_2.fastq.gz", accession=config["accession"]),
         # #preprocessing - fastqc-raw-data
-        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}_raw_data.html", sample=config["accession"]),
-        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}_raw_data_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data_fastqc.zip", sample=config["accession"]),
         # #preprocessing - cutadapt
         expand("../results/01-preprocessing/02-cutadapt/{sample}.1_trimmed.fastq.gz", sample=config["accession"]),
         expand("../results/01-preprocessing/02-cutadapt/{sample}.2_trimmed.fastq.gz", sample=config["accession"]),
         expand("../results/01-preprocessing/02-cutadapt/{sample}.qc.txt", sample=config["accession"]),
         # #preprocessing - fastqc-cutadapt_output
-        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}_cutadapt_output.html", sample=config["accession"]),
-        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}_cutadapt_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output_fastqc.zip", sample=config["accession"]),
         # #preprocessing - kneaddata-database
         expand("../resources/human_database"),
         # #preprocessing - seqtk
@@ -26,8 +30,10 @@ rule all:
         expand("../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq", sample=config["accession"]),
         expand("../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq", sample=config["accession"]),
         #preprocessing - fastqc-kneaddata
-        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}_kneaddata_output.html", sample=config["accession"]),
-        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}_kneaddata_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip", sample=config["accession"]),
         #assembly - metaspades
         # expand("../results/02-assembly/{sample}", sample=config["accession"]),
         # #jaeger2fasta

@@ -1,9 +1,9 @@
-rule fastqc_raw_data:
+rule fastqc_raw_data_1:
     input:
-        ["../results/00-raw_data/{sample}_1.fastq.gz", "../results/00-raw_data/{sample}_2.fastq.gz"]
+        "../results/00-raw_data/{sample}_1.fastq.gz"
     output:
-        html="../results/01-preprocessing/01-raw_data-fastqc/{sample}_raw_data.html",
-        zip="../results/01-preprocessing/01-raw_data-fastqc/{sample}_raw_data_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data.html",
+        zip="../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
         "logs/fastqc_raw_data/{sample}.log"
@@ -14,7 +14,25 @@ rule fastqc_raw_data:
         ntasks=2,
         time="00:30:00"
     wrapper:
-        "v1.7.0/bio/fastqc"
+        "v1.25.0/bio/fastqc"
+
+rule fastqc_raw_data_2:
+    input:
+        "../results/00-raw_data/{sample}_2.fastq.gz"
+    output:
+        html="../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data.html",
+        zip="../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+    params: "--quiet"
+    log:
+        "logs/fastqc_raw_data/{sample}.log"
+    threads: 1
+    resources:
+        partition="plgrid",
+        nodes=1,
+        ntasks=1,
+        time="00:30:00"
+    wrapper:
+        "v1.25.0/bio/fastqc"
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 rule cutadapt:
@@ -40,28 +58,44 @@ rule cutadapt:
     envmodules:
         "plgrid/tools/cutadapt/3.7"
     wrapper:
-        "v1.21.2/bio/cutadapt/pe"
+        "v1.25.0/bio/cutadapt/pe"
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
-rule fastqc_cutadapt:
+rule fastqc_cutadapt_1:
     input:
-        ["../results/01-preprocessing/02-cutadapt/{sample}.1_trimmed.fastq.gz", "../results/01-preprocessing/02-cutadapt/{sample}.2_trimmed.fastq.gz"]
+        "../results/01-preprocessing/02-cutadapt/{sample}.1_trimmed.fastq.gz"
     output:
-        html="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}_cutadapt_output.html",
-        zip="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}_cutadapt_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output.html",
+        zip="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
         "logs/fastqc_cutadapt/{sample}.log"
-    threads: 2
+    threads: 1
     resources:
         partition="plgrid",
         nodes=1,
-        ntasks=2,
+        ntasks=1,
         time="00:30:00"
-    envmodules:
-        "plgrid/apps/fastqc/0.11.9"
     wrapper:
-        "v1.7.0/bio/fastqc"
+        "v1.25.0/bio/fastqc"
+
+rule fastqc_cutadapt_2:
+    input:
+        "../results/01-preprocessing/02-cutadapt/{sample}.2_trimmed.fastq.gz"
+    output:
+        html="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output.html",
+        zip="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+    params: "--quiet"
+    log:
+        "logs/fastqc_cutadapt/{sample}.log"
+    threads: 1
+    resources:
+        partition="plgrid",
+        nodes=1,
+        ntasks=1,
+        time="00:30:00"
+    wrapper:
+        "v1.25.0/bio/fastqc"
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 rule kneaddata_database:
@@ -92,7 +126,7 @@ rule seqtk:
         tmp_rev="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.tmp_2.fastq",
     threads: 2
     conda:
-        "../envs/seqtk.yaml"
+        "../envs/seqtk_bbmap.yaml"
     resources:
         partition="plgrid",
         nodes=1,
@@ -134,7 +168,7 @@ rule kneaddata:
 
     shell: """
         kneaddata --remove-intermediate-output --threads {threads} --processes 24 \
-        -i {input.tmp_fwd2} -i {input.tmp_rev2}\
+        -i1 {input.tmp_fwd2} -i2 {input.tmp_rev2}\
         --output {params.outdir} \
         -db {params.indx} \
         --bypass-trim
@@ -161,12 +195,12 @@ rule repair:
         """
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
-rule fastqc_kneaddata:
+rule fastqc_kneaddata_1:
     input:
-        ["../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq", "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq"]
+        "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq" "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq"]
     output:
-        html="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}_kneaddata_output.html",
-        zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output.html",
+        zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
         "logs/fastqc_kneaddata/{sample}.log"
@@ -177,4 +211,22 @@ rule fastqc_kneaddata:
         ntasks=2,
         time="00:30:00"
     wrapper:
-        "v1.7.0/bio/fastqc"
+        "v1.25.0/bio/fastqc"
+
+rule fastqc_kneaddata_2:
+    input:
+        "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq"
+    output:
+        html="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html",
+        zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+    params: "--quiet"
+    log:
+        "logs/fastqc_kneaddata/{sample}.log"
+    threads: 1
+    resources:
+        partition="plgrid",
+        nodes=1,
+        ntasks=1,
+        time="00:30:00"
+    wrapper:
+        "v1.25.0/bio/fastqc"

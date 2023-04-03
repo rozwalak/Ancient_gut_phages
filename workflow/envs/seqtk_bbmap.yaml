@@ -1,8 +1,8 @@
-name: preprocessing
+name: seqtk_bbmap
 channels:
   - bioconda
   - conda-forge
   - defaults
 dependencies:
-  - kneaddata
-
+  - seqtk
+  - bbmap
