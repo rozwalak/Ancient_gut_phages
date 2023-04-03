@@ -4,6 +4,7 @@ rule metaspades:
         reads2="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq",
     output:
         meta_dir=directory("../results/02-assembly/{sample}"),
+        new_name="../results/02-assembly/{sample}/{sample}_scaffolds.fasta"
     benchmark:
         "logs/benchmarks/metaspades/{sample}_metaspades.txt"
     log:
@@ -11,7 +12,6 @@ rule metaspades:
     threads: 16
     params:
         scaffolds="../results/02-assembly/{sample}/scaffolds.fasta",
-        new_name="../results/02-assembly/{sample}/{sample}_scaffolds.fasta",
         new_dir="../results/02-assembly/output_scaffolds",
     conda:
         "../envs/metaspades.yaml"
@@ -31,7 +31,7 @@ rule metaspades:
 	    -t {threads} \
 	    -m 120
 
-        mv {params.scaffolds} {params.new_name}
         mkdir -p {params.new_dir}
-        cp {params.new_name} {params.new_dir}
+        mv {params.scaffolds} {output.new_name}
+        cp {output.new_name} {params.new_dir}
         """

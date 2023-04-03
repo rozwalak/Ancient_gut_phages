@@ -67,7 +67,7 @@ rule all:
 
 include: "rules/downloads.smk"
 include: "rules/preprocessing.smk"
-# include: "rules/assembly.smk"
+include: "rules/assembly.smk"
 # include: "rules/viral_prediction.smk"
 # include: "rules/aDNA_authentication.smk"
 # include: "rules/quality_check.smk"
