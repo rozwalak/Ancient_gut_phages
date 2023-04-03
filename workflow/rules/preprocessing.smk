@@ -6,7 +6,7 @@ rule fastqc_raw_data_1:
         zip="../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_raw_data/{sample}.log"
+        "logs/fastqc_raw_data_1/{sample}.log"
     threads: 2
     resources:
         partition="plgrid",
@@ -24,7 +24,7 @@ rule fastqc_raw_data_2:
         zip="../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_raw_data/{sample}.log"
+        "logs/fastqc_raw_data_2/{sample}.log"
     threads: 1
     resources:
         partition="plgrid",
@@ -69,7 +69,7 @@ rule fastqc_cutadapt_1:
         zip="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_cutadapt/{sample}.log"
+        "logs/fastqc_cutadapt_1/{sample}.log"
     threads: 1
     resources:
         partition="plgrid",
@@ -87,7 +87,7 @@ rule fastqc_cutadapt_2:
         zip="../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_cutadapt/{sample}.log"
+        "logs/fastqc_cutadapt_2/{sample}.log"
     threads: 1
     resources:
         partition="plgrid",
@@ -153,7 +153,7 @@ rule kneaddata:
         # out_dir=directory("../results/01-preprocessing/04-kneaddata/{sample}")
     params:
         outdir=directory("../results/01-preprocessing/04-kneaddata/{sample}"),
-        indx="../resources/human_database",
+        indx="../../resources/human_database",
     conda:
         "../envs/kneaddata.yaml"
     threads: 24
@@ -183,7 +183,7 @@ rule repair:
         rev="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.tmp2_1_kneaddata_paired_2.fastq",
     threads: 12
     conda:
-        "../envs/bbmap.yaml"
+        "../envs/seqtk_bbmap.yaml"
     resources:
         partition="plgrid",
         nodes=1,
@@ -203,7 +203,7 @@ rule fastqc_kneaddata_1:
         zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_kneaddata/{sample}.log"
+        "logs/fastqc_kneaddata_1/{sample}.log"
     threads: 2
     resources:
         partition="plgrid",
@@ -221,7 +221,7 @@ rule fastqc_kneaddata_2:
         zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: "--quiet"
     log:
-        "logs/fastqc_kneaddata/{sample}.log"
+        "logs/fastqc_kneaddata_2/{sample}.log"
     threads: 1
     resources:
         partition="plgrid",
