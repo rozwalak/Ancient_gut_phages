@@ -167,7 +167,7 @@ rule kneaddata:
         "logs/kneaddata/{sample}.log"
 
     shell: """
-        kneaddata --remove-intermediate-output --threads {threads} --processes 24 \
+        kneaddata --threads {threads} --processes 24 \
         -i1 {input.tmp_fwd2} -i2 {input.tmp_rev2}\
         --output {params.outdir} \
         -db {params.indx} \
