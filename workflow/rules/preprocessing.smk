@@ -197,7 +197,7 @@ rule repair:
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 rule fastqc_kneaddata_1:
     input:
-        "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq" "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq"]
+        "../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq"
     output:
         html="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output.html",
         zip="../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
