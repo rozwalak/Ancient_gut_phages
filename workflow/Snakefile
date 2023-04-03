@@ -35,7 +35,7 @@ rule all:
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip", sample=config["accession"]),
         #assembly - metaspades
-        # expand("../results/02-assembly/{sample}", sample=config["accession"]),
+        expand("../results/02-assembly/{sample}", sample=config["accession"]),
         # #jaeger2fasta
         # expand("../results/03-viral_prediction/viruses/{sample}_viruses.txt", sample=config["accession"]),
         # expand("../results/03-viral_prediction/viruses_fasta/{sample}_viruses.fasta", sample=config["accession"]),

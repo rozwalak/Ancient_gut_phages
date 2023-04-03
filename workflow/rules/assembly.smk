@@ -13,15 +13,15 @@ rule metaspades:
         scaffolds="../results/02-assembly/{sample}/scaffolds.fasta",
         new_name="../results/02-assembly/{sample}/{sample}_scaffolds.fasta",
         new_dir="../results/02-assembly/output_scaffolds",
-    envmodules:
-        "plgrid/tools/spades/3.15.4"
+    conda:
+        "../envs/metaspades.yaml"
     resources:
         partition="plgrid",
         nodes=1,
         ntasks=16,
         mem_mb="120GB",
         disk_mb="80GB",
-        time="10:00:00",
+        time="01:00:00",
     shell: """
         metaspades.py \
 	    --meta \
