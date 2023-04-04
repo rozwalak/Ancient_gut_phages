@@ -20,15 +20,22 @@ We prepared snakemake pipeline (snake-download-preprocessing-assembly) to:
 - downloading 72 Illumina metagenomic libraries of palaeofeces and human gut content samples (see: supplementary table S1)
 - trimming paired-end reads using Cutadapt (v.4.1)
 - filtering out human DNA using KneadData (v.0.12.0)
+- quality control in FastQC before and after each step
 - assembly reads from samples into contigs using Metaspades (v.3.15.5)
 
-The first step is installation snakemake environment following instructions from [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)<br>  
+Metadata in suplementary table S1 is coming from [AncientMetagenomeDir](https://github.com/SPAAM-community/AncientMetagenomeDir), a community curated resource of lists of all published shotgun-sequenced ancient metagenomes.
+
+The first step is installation snakemake environment following instructions from [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).<br>  
 Then you can download this repository and run our pipeline which automatically create specific environments using conda and download all 72 libraries. 
 You can modify config.yaml from config folder to select different samples to analyze. 
 <br>  
 
-Metadata in Suplementary Table S1 coming from [AncientMetagenomeDir](https://github.com/SPAAM-community/AncientMetagenomeDir), a community curated resource of lists of all published shotgun-sequenced ancient metagenomes.
+```
+conda activate snakemake
 
+snakemake --profile ../config/snakemake/slurm --use-conda 
+```
+Before next step, we filtered out all contigs shorter than 4000 nt and with coverage <20
 ### aDNA authentication
 
 ### Viral contigs identification
