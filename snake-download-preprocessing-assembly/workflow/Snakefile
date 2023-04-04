@@ -1,0 +1,29 @@
+configfile: "../config/config.yaml"
+
+rule all:
+    input:
+        # #preprocessing - fastqc-raw-data
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.2_raw_data_fastqc.zip", sample=config["accession"]),
+        # #preprocessing - fastqc-cutadapt_output
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.1_cutadapt_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output_fastqc.zip", sample=config["accession"]),
+        # #preprocessing - kneaddata-database
+        expand("../resources/human_database"),
+        #preprocessing - fastqc-kneaddata
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html", sample=config["accession"]),
+        expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip", sample=config["accession"]),
+        #assembly - metaspades
+        expand("../results/02-assembly/{sample}", sample=config["accession"]),
+        expand("../results/02-assembly/{sample}/{sample}_scaffolds.fasta", sample=config["accession"]),
+
+
+include: "rules/downloads.smk"
+include: "rules/preprocessing.smk"
+include: "rules/assembly.smk"

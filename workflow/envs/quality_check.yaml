@@ -1,7 +1,0 @@
-name: quality_check
-channels:
-  - bioconda
-  - conda-forge
-  - defaults
-dependencies:
-  - checkv

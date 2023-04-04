@@ -153,7 +153,7 @@ rule kneaddata:
         # out_dir=directory("../results/01-preprocessing/04-kneaddata/{sample}")
     params:
         outdir=directory("../results/01-preprocessing/04-kneaddata/{sample}"),
-        indx="../../resources/human_database",
+        indx="../resources/human_database",
     conda:
         "../envs/kneaddata.yaml"
     threads: 24
