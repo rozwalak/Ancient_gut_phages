@@ -13,7 +13,7 @@ rule all:
         expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output.html", sample=config["accession"]),
         expand("../results/01-preprocessing/03-cutadapt_output-fastqc/{sample}.2_cutadapt_output_fastqc.zip", sample=config["accession"]),
         # #preprocessing - kneaddata-database
-        expand("../resources/human_database"),
+        expand("../../resources/human_database"),
         #preprocessing - fastqc-kneaddata
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output.html", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip", sample=config["accession"]),

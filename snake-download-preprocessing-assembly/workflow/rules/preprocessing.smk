@@ -100,7 +100,7 @@ rule fastqc_cutadapt_2:
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 rule kneaddata_database:
     output:
-        directory("../resources/human_database")
+        directory("../../resources/human_database")
     conda:
         "../envs/kneaddata.yaml"
     log:
