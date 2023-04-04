@@ -18,9 +18,9 @@ This repository is a guide for analyses from publication about de novo assembly 
 ### Downloading, preprocessing and assembly
 We prepared snakemake pipeline to:
 - downloading 72 Illumina metagenomic libraries of palaeofeces and human gut content samples (see: supplementary table S1)
-- trimming paired-end reads using Cutadapt v.4.1
-- filtering out human DNA using KneadData v.0.12.0
-- assembly reads from samples into contigs using Metaspades v.3.15.5
+- trimming paired-end reads using Cutadapt (v.4.1)
+- filtering out human DNA using KneadData (v.0.12.0)
+- assembly reads from samples into contigs using Metaspades (v.3.15.5)
 ### aDNA authentication
 
 ### Viral contigs identification
