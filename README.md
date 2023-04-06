@@ -38,6 +38,11 @@ snakemake --profile ../config/snakemake/slurm --use-conda
 Before next step, we filtered out all contigs shorter than 4000 nt and with coverage <20 using information from fasta headers.
 ### aDNA authentication
 
+At first, we prepared bowtie2 index for all assembled samples from the previous step:
+```
+
+```
+
 ### Viral contigs identification
 
 ### Viral contigs clustering
