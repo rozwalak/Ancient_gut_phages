@@ -21,13 +21,15 @@ rule all:
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip", sample=config["accession"]),
+
+        expand("../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta", sample=config["accession"]),
         # bowtie2 and samtools
         expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2", sample=config["accession"]),
-        expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2", sample=config["accession"]),        
+        expand("../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/bowtie2_out/{sample}.bam", sample=config["accession"]),
         expand("../results/04-aDNA_authentication/bowtie2_out/{sample}.bam.bai", sample=config["accession"]),
         # pydamage
