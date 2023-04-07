@@ -1,3 +1,5 @@
+ruleorder: metaspades > assembly_filter
+
 rule metaspades:
     input:
         reads1="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq",
@@ -5,6 +7,7 @@ rule metaspades:
     output:
         meta_dir=directory("../results/02-assembly/{sample}"),
         new_name="../results/02-assembly/{sample}/{sample}_scaffolds.fasta"
+        filtered="../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta"
     benchmark:
         "logs/benchmarks/metaspades/{sample}_metaspades.txt"
     log:
@@ -33,23 +36,25 @@ rule metaspades:
 
         mkdir -p {params.new_dir}
         mv {params.scaffolds} {output.new_name}
-        cp {output.new_name} {params.new_dir}
+        ../scripts/assembly_filter.py
+        cp {output.filtered} {params.new_dir}
         """
-rule assembly_filter:
-    input:
-        "../results/02-assembly/{sample}/{sample}_scaffolds.fasta",
-    output:
-        "../results/02-assembly/{sample}/{sample}_filtered_scaffolds.fasta",
-    threads: 1
-    log:
-        "logs/assembly_filter/{sample}.log"
-    conda:
-        "../envs/aDNA_authentication_pydamage.yaml"
-    resources:
-        partition="plgrid",
-        nodes=1,
-        ntasks=1,
-        mem_mb="4GB",
-        time="01:00:00",
-    script:
-        "../scripts/assembly_filter.py"
+# rule assembly_filter:
+#     input:
+#         "../results/02-assembly/{sample}/{sample}_scaffolds.fasta",
+#     output:
+#         directory("../results/02-assembly/{sample}_filtered"),
+#         "{sample}_filtered_scaffolds.fasta",
+#     threads: 1
+#     log:
+#         "logs/assembly_filter/{sample}.log"
+#     conda:
+#         "../envs/aDNA_authentication_pydamage.yaml"
+#     resources:
+#         partition="plgrid",
+#         nodes=1,
+#         ntasks=1,
+#         mem_mb="4GB",
+#         time="01:00:00",
+#     script:
+#         "../scripts/assembly_filter.py"

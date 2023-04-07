@@ -1,6 +1,6 @@
 rule bowtie2_build:
     input:
-        "../results/02-assembly/{sample}/{sample}_filtered_scaffolds.fasta"
+        "../results/02-assembly/filtered_contigs/{sample}_filtered_scaffolds.fasta"
     params:
         basename="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index"
     output:
@@ -88,7 +88,7 @@ rule pydamage:
 rule pydamage2fasta:
     input:
         pydamage_csv="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv",
-        viruses_fasta="../results/02-assembly/{sample}/{sample}_filtered_scaffolds.fasta",
+        viruses_fasta="../results/02-assembly/filtered_contigs/{sample}_filtered_scaffolds.fasta",
     output:
         ancient_viruses_fasta="../results/04-aDNA_authentication/ancient_contigs_fasta/{sample}_ancient.fasta",
     params:

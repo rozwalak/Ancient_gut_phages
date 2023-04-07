@@ -20,4 +20,4 @@ default-resources:
   - "tmpdir='$SCRATCH'"
 
 jobs: 1000
-latency-wait: 60
+latency-wait: 300

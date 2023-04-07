@@ -1,7 +1,7 @@
 from Bio import SeqIO
 
-input_file = snakemake.input
-output_file = snakemake.output
+input_file = snakemake.params.scaffolds
+output_file = snakemake.output.filtered
 min_length = 4000
 min_coverage = 20
 
