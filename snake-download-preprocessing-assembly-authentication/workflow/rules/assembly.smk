@@ -52,4 +52,4 @@ rule assembly_filter:
         mem_mb="4GB",
         time="01:00:00",
     script:
-        "../scripts/pydamage2fasta.py"
+        "../scripts/assembly_filter.py"
