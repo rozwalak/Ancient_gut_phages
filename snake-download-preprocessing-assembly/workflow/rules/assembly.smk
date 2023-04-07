@@ -35,3 +35,21 @@ rule metaspades:
         mv {params.scaffolds} {output.new_name}
         cp {output.new_name} {params.new_dir}
         """
+rule assembly_filter:
+    input:
+        "../results/02-assembly/{sample}/{sample}_scaffolds.fasta",
+    output:
+        "../results/02-assembly/{sample}/{sample}_filtered_scaffolds.fasta",
+    threads: 1
+    log:
+        "logs/pydamage2fasta/{sample}.log"
+    conda:
+        "../envs/aDNA_authentication_pydamage.yaml"
+    resources:
+        partition="plgrid",
+        nodes=1,
+        ntasks=1,
+        mem_mb="4GB",
+        time="01:00:00",
+    script:
+        "../scripts/pydamage2fasta.py"
