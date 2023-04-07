@@ -3,14 +3,12 @@ rule metaspades:
         reads1="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq",
         reads2="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq",
     output:
-        meta_dir=directory("../results/02-assembly/{sample}"),
         filtered="../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta"
-    benchmark:
-        "logs/benchmarks/metaspades/{sample}_metaspades.txt"
     log:
         "logs/metaspades/{sample}_metaspades.log",
     threads: 16
     params:
+        meta_dir=directory("../results/02-assembly/{sample}"),
         scaffolds="../results/02-assembly/{sample}/scaffolds.fasta",
         new_dir="../results/02-assembly/output_scaffolds",
     conda:
@@ -27,11 +25,11 @@ rule metaspades:
 	    --meta \
 	    -1 {input.reads1} \
 	    -2 {input.reads2} \
-	    -o {output.meta_dir} \
+	    -o {params.meta_dir} \
 	    -t {threads} \
 	    -m 120
 
-        ../scripts/assembly_filter.py
+        python ../scripts/assembly_filter.py {params.scaffolds} {output.filtered}
         mkdir -p {params.new_dir}
         cp {output.filtered} {params.new_dir}
         """
