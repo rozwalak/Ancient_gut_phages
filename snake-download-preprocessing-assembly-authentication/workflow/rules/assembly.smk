@@ -42,7 +42,7 @@ rule assembly_filter:
         "../results/02-assembly/{sample}/{sample}_filtered_scaffolds.fasta",
     threads: 1
     log:
-        "logs/pydamage2fasta/{sample}.log"
+        "logs/assembly_filter/{sample}.log"
     conda:
         "../envs/aDNA_authentication_pydamage.yaml"
     resources:
