@@ -52,58 +52,58 @@ rule bowtie2:
         samtools index {output.bam} {output.bam_bai}
         """
 #---------------------------------------------------------------------------------------------------------------------------------------------------
-
-rule pydamage:
-    input:
-        "../results/04-aDNA_authentication/bowtie2_out/{sample}.bam"
-    output:
-        outdir=directory("../results/04-aDNA_authentication/pydamage/{sample}_pydamage"),
-        pydamage="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/pydamage_results.csv",
-        pydamage_filtered="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv",
-    threads: 24
-    log:
-        "logs/pydamage/{sample}.log"
-    conda:
-        "../envs/aDNA_authentication_pydamage.yaml"
-    resources:
-        partition="plgrid",
-        nodes=1,
-        ntasks=24,
-        mem_mb="64GB",
-        time="01:00:00",
-    shell: """
-
-        pydamage \
-        --outdir {output.outdir} \
-        analyze {input} \
-        --force \
-        --process={threads}
-
-        pydamage filter -t 0 {output.pydamage}
-
-        mv pydamage_results/pydamage_filtered_results.csv {output.pydamage_filtered}
-        rm -r pydamage_results
-        """
-#---------------------------------------------------------------------------------------------------------------------------------------------------
-rule pydamage2fasta:
-    input:
-        pydamage_csv="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv",
-        viruses_fasta="../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta",
-    output:
-        ancient_viruses_fasta="../results/04-aDNA_authentication/ancient_contigs_fasta/{sample}_ancient.fasta",
-    params:
-        all_pydamage_outputs=directory("../results/04-aDNA_authentication/pydamage/pydamage_all_outputs"),
-        sample_name="{sample}"
-    threads: 1
-    log:
-        "logs/pydamage2fasta/{sample}.log"
-    conda:
-        "../envs/aDNA_authentication_pydamage.yaml"
-    resources:
-        partition="plgrid",
-        nodes=1,
-        ntasks=1,
-        mem_mb="4GB",
-        time="01:00:00",
-    script:
-        "../scripts/pydamage2fasta.py"
+# 
+# rule pydamage:
+#     input:
+#         "../results/04-aDNA_authentication/bowtie2_out/{sample}.bam"
+#     output:
+#         outdir=directory("../results/04-aDNA_authentication/pydamage/{sample}_pydamage"),
+#         pydamage="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/pydamage_results.csv",
+#         pydamage_filtered="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv",
+#     threads: 24
+#     log:
+#         "logs/pydamage/{sample}.log"
+#     conda:
+#         "../envs/aDNA_authentication_pydamage.yaml"
+#     resources:
+#         partition="plgrid",
+#         nodes=1,
+#         ntasks=24,
+#         mem_mb="64GB",
+#         time="01:00:00",
+#     shell: """
+#
+#         pydamage \
+#         --outdir {output.outdir} \
+#         analyze {input} \
+#         --force \
+#         --process={threads}
+#
+#         pydamage filter -t 0 {output.pydamage}
+#
+#         mv pydamage_results/pydamage_filtered_results.csv {output.pydamage_filtered}
+#         rm -r pydamage_results
+#         """
+# #---------------------------------------------------------------------------------------------------------------------------------------------------
+# rule pydamage2fasta:
+#     input:
+#         pydamage_csv="../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv",
+#         viruses_fasta="../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta",
+#     output:
+#         ancient_viruses_fasta="../results/04-aDNA_authentication/ancient_contigs_fasta/{sample}_ancient.fasta",
+#     params:
+#         all_pydamage_outputs=directory("../results/04-aDNA_authentication/pydamage/pydamage_all_outputs"),
+#         sample_name="{sample}"
+#     threads: 1
+#     log:
+#         "logs/pydamage2fasta/{sample}.log"
+#     conda:
+#         "../envs/aDNA_authentication_pydamage.yaml"
+#     resources:
+#         partition="plgrid",
+#         nodes=1,
+#         ntasks=1,
+#         mem_mb="4GB",
+#         time="01:00:00",
+#     script:
+#         "../scripts/pydamage2fasta.py"
