@@ -1,15 +1,15 @@
 rule bowtie2_build:
     input:
-        "../results/02-assembly/{sample}/{sample}_scaffolds_filtered_4k_20cov.fasta"
+        "../results/02-assembly/{sample}/scaffolds.fasta"
     params:
-        basename="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index"
+        basename="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index"
     output:
-        output1="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2",
-        output2="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2",
-        output3="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2",
-        output4="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2",
-        outputrev1="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2",
-        outputrev2="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2"
+        output1="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2",
+        output2="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2",
+        output3="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2",
+        output4="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2",
+        outputrev1="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2",
+        outputrev2="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2"
     log:
         "logs/bowtie2_build/{sample}.log",
     conda:
@@ -27,15 +27,15 @@ rule bowtie2:
     input:
         r1="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_1.fastq",
         r2="../results/01-preprocessing/04-kneaddata/{sample}/{sample}.1_trimmed_kneaddata_paired_2.fastq",
-        input1="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2",
-        input2="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2",
-        input3="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2",
-        input4="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2",
-        inputrev1="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2",
-        inputrev2="../results/04-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2"
+        input1="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2",
+        input2="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2",
+        input3="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2",
+        input4="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2",
+        inputrev1="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2",
+        inputrev2="../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2"
     output:
-        bam="../results/04-aDNA_authentication/bowtie2_out/{sample}.bam",
-        bam_bai="../results/04-aDNA_authentication/bowtie2_out/{sample}.bam.bai"
+        bam="../results/03-aDNA_authentication/bowtie2_out/{sample}.bam",
+        bam_bai="../results/03-aDNA_authentication/bowtie2_out/{sample}.bam.bai"
     threads: 24
     log:
         "logs/bowtie2/{sample}.log"
@@ -52,7 +52,7 @@ rule bowtie2:
         samtools index {output.bam} {output.bam_bai}
         """
 #---------------------------------------------------------------------------------------------------------------------------------------------------
-# 
+#
 # rule pydamage:
 #     input:
 #         "../results/04-aDNA_authentication/bowtie2_out/{sample}.bam"
