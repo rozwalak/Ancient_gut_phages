@@ -2,8 +2,6 @@ configfile: "../config/config.yaml"
 
 rule all:
     input:
-        expand("../results/00-raw_data/{sample}_1.fastq.gz", sample=config["accession"]),
-        expand("../results/00-raw_data/{sample}_2.fastq.gz", sample=config["accession"]),
         # #preprocessing - fastqc-raw-data
         expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data.html", sample=config["accession"]),
         expand("../results/01-preprocessing/01-raw_data-fastqc/{sample}.1_raw_data_fastqc.zip", sample=config["accession"]),
@@ -21,26 +19,11 @@ rule all:
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.1_kneaddata_output_fastqc.zip", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output.html", sample=config["accession"]),
         expand("../results/01-preprocessing/05-kneaddata_output-fastqc/{sample}.2_kneaddata_output_fastqc.zip", sample=config["accession"]),
-
-        expand("../results/02-assembly/{sample}/scaffolds.fasta", sample=config["accession"]),
-        # bowtie2 and samtools
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.1.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.2.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.3.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.4.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.1.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/indexes/{sample}_index/{sample}.index.rev.2.bt2", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/bowtie2_out/{sample}.bam", sample=config["accession"]),
-        expand("../results/03-aDNA_authentication/bowtie2_out/{sample}.bam.bai", sample=config["accession"]),
-        # pydamage
-        # expand("../results/04-aDNA_authentication/pydamage/{sample}_pydamage", sample=config["accession"]),
-        # expand("../results/04-aDNA_authentication/pydamage/{sample}_pydamage/pydamage_results.csv", sample=config["accession"]),
-        # expand("../results/04-aDNA_authentication/pydamage/{sample}_pydamage/{sample}_pydamage_filtered_results.csv", sample=config["accession"]),
-        # # pydamage2fasta
-        # expand("../results/04-aDNA_authentication/ancient_contigs_fasta/{sample}_ancient.fasta", sample=config["accession"]),
+        # final
+        expand("../results/04-aDNA_authentication/ancient_contigs_fasta/{sample}_ancient.fasta", sample=config["accession"]),
 
 
 include: "rules/downloads.smk"
 include: "rules/preprocessing.smk"
 include: "rules/assembly.smk"
-inlcude: "rules/aDNA_authentication.smk"
+include: "rules/aDNA_authentication.smk"
