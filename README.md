@@ -72,7 +72,26 @@ checkv download_database ./
 
 checkv end_to_end input_file.fasta output_directory -t 8 -d PATH_to_DB
 ```
+We considered ancient viral genomes classified as complete, high-quality, medium-quality, or fragments longer than 20kb. Additionally, we filtered out sequences with viral genes <= 1 and host genes >= 1 to clean putative contaminants. 
 ### Viral contigs clustering
+We clustered selected ancient viral genomes on the basis of 95% average nucleotide identity (ANI) and 85% alignment fraction of the shorter sequence, as recommended in [MIUViG](https://www.nature.com/articles/nbt.4306) (Minimum information about an uncultivated virus genome)
+<br>
+<br>
+For this purpose, we used custom scripts published in the [CheckV](https://bitbucket.org/berkeleylab/checkv/src/master/scripts/) repository
+<br>
+```
+First, create a blast+ database:
+makeblastdb -in <my_seqs.fna> -dbtype nucl -out <my_db>
+
+Next, use megablast from blast+ package to perform all-vs-all blastn of sequences:
+blastn -query <my_seqs.fna> -db <my_db> -outfmt '6 std qlen slen' -max_target_seqs 10000 -o <my_blast.tsv> -num_threads 32
+
+Next, calculate pairwise ANI by combining local alignments between sequence pairs:
+anicalc.py -i <my_blast.tsv> -o <my_ani.tsv>
+
+Finally, perform UCLUST-like clustering using the MIUVIG recommended-parameters (95% ANI + 85% AF):
+aniclust.py --fna <my_seqs.fna> --ani <my_ani.tsv> --out <my_clusters.tsv> --min_ani 95 --min_tcov 85 --min_qcov 0
+```
 
 ### Gene-sharing network
 
