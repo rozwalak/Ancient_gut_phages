@@ -73,6 +73,10 @@ checkv download_database ./
 checkv end_to_end input_file.fasta output_directory -t 8 -d PATH_to_DB
 ```
 We considered ancient viral genomes classified as complete, high-quality, medium-quality, or fragments longer than 20kb. Additionally, we filtered out sequences with viral genes <= 1 and host genes >= 1 to clean putative contaminants. 
+```
+python checkv2fasta.py
+```
+
 ### Viral contigs clustering
 We clustered selected ancient viral genomes on the basis of 95% average nucleotide identity (ANI) and 85% alignment fraction of the shorter sequence, as recommended in [MIUViG](https://www.nature.com/articles/nbt.4306) (Minimum information about an uncultivated virus genome)
 <br>
@@ -128,7 +132,56 @@ vcontact2 --raw-proteins SelectedIMGVR_ICTV_AncientViruses.faa --proteins-fp Sel
 We visualised the network (Fig. 2A) from vContact2 in [Cytoscape](https://cytoscape.org/) (v.3.9.0) and refined it in [Inkscape](https://inkscape.org/) (v.1.2.2.)
 
 ### Host prediction
-
+We used four computational tools to predict hosts of ancient viral genomes: 
+- [BLASTn](https://github.com/enormandeau/ncbi_blast_tutorial)
+- [PHIST](https://github.com/refresh-bio/PHIST)
+- [VirHostMatcher-Net](https://github.com/WeiliWw/VirHostMatcher-Net)
+- [RaFAH](https://sourceforge.net/projects/rafah/)
+```
+do uzupełnienia
+```
 ### Taxonomy assignment, clustering and phylogenetic analysis
+We performed taxonomic assignment of ancient viral genomes using [geNomad](https://cytoscape.org/) (v.1.3.3)
+
+```
+genomad download-database .
+
+genomad annotate --cleanup ancient_viruses.fasta ancient_viruses_genomad genomad_db
+```
+To identify genus- and family-level ancient viral genomes, we clustered genomes using a combination of gene sharing and AAI following scripts from [here](https://github.com/snayfach/MGV/tree/master/aai_cluster) (Nayfach et al., 2021)
+
+Firstly, we selected ancient viral genomes assessed as high-quality or complete by CheckV, and we then added prokaryotic viruses from RefSeq (n = 4703; access: 30.01.2023) and IMG/VR sequences (n = 265) forming clusters (VC) with ancient viruses (see: Gene-sharing network) = ancient_viruses_RefSeq_selectedIMGVR.fasta
+
+```
+#Predict protein-coding genes
+prodigal -i ancient_viruses_RefSeq_selectedIMGVR.fasta -a ancient_viruses_RefSeq_selectedIMGVR.faa -p meta
+
+#Make DIAMOND database
+diamond makedb --in ancient_viruses_RefSeq_selectedIMGVR.faa --db viral_proteins --threads 10
+
+#Perform all-vs-all BLASTP
+diamond blastp --query ancient_viruses_RefSeq_selectedIMGVR.faa --db viral_proteins --out blastp.tsv --outfmt 6 --evalue 1e-5 --max-target-seqs 10000 --query-cover 50 --subject-cover 50
+
+#Compute AAI from BLAST results
+python amino_acid_identity.py --in_faa ancient_viruses_RefSeq_selectedIMGVR.faa --in_blast blastp.tsv --out_tsv aai.tsv
+
+#Amino acid identity is computed based on the average BLAST percent identity between all genes shared between each pair of genomes (E-value <1e-5)
+
+#Filter edges and prepare MCL input
+python filter_aai.py --in_aai aai.tsv --min_percent_shared 20 --min_num_shared 16 --min_aai 40 --out_tsv genus_edges.tsv
+python filter_aai.py --in_aai aai.tsv --min_percent_shared 10 --min_num_shared 8 --min_aai 20 --out_tsv family_edges.tsv
+
+#Here we're keeping edges between genomes with >=20% AAI and genomes with either 8 shared genes or at least 20% of shared genes (relative to both genomes)
+
+#Perform MCL-based clustering
+mcl genus_edges.tsv -te 8 -I 2.0 --abc -o genus_clusters.txt
+mcl family_edges.tsv -te 8 -I 1.2 --abc -o family_clusters.txt
+
+#In the output each row indicates the members belonging to each cluster (including singletons)
+```
+To visualise phylogenetic relationships of genus- and family-level groups, we generated a proteomic tree (Fig. 3) of 5017 viral sequences using [ViPTreeGen](https://github.com/yosuken/ViPTreeGen) (v1.1.3) and [GraPhlAn](https://github.com/biobakery/graphlan) (v1.1.3).
+```
+ViPTreeGen --ncpus 24 ancient_viruses_RefSeq_selectedIMGVR.fasta ancient_viruses_RefSeq_selectedIMGVR_VipTree
+```
 
 ### Analyses of Mushuvirus mushu genome
