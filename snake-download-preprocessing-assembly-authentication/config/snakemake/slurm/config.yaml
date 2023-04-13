@@ -17,7 +17,7 @@ default-resources:
   - nodes=1
   - ntasks=2
   - time="02:00:00"
-  - "tmpdir='$SCRATCH'"
+  - "TMPDIR='$SCRATCH'"
 
 jobs: 1000
 latency-wait: 300

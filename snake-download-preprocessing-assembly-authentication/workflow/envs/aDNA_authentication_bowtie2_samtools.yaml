@@ -6,4 +6,4 @@ channels:
   - anaconda
 dependencies:
   - bowtie2
-  - samtools=1.11
+  - samtools

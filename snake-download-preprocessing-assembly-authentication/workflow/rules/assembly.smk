@@ -29,7 +29,7 @@ rule metaspades:
 	    -t {threads} \
 	    -m 120
 
-        python ../scripts/assembly_filter.py {params.scaffolds} {output.filtered}
+        python scripts/assembly_filter.py {params.scaffolds} {output.filtered}
         mkdir -p {params.new_dir}
         cp {output.filtered} {params.new_dir}
         """
