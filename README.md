@@ -45,12 +45,12 @@ snakemake --profile ../config/snakemake/slurm --use-conda
 ```
 
 ### Viral contigs identification
-We identified viral sequences in collection of ancient contigs using three different tools:
+We identified viral sequences in the collection of ancient contigs using three different tools:
 - [Jaeger](https://github.com/Yasas1994/Jaeger)
 - [VIBRANT](https://github.com/AnantharamanLab/VIBRANT) (v.1.2.1)
 - [VirSorter2](https://github.com/jiarong/VirSorter2) (v.2.2.3)
 
-After installation of tools we performed predictions of viral sequences using following commands for combined fasta file with all ancient contigs:
+In order to predict viral sequences after installing the necessary tools, we used the combined fasta file with all of the ancient contigs and the following commands:
 
 ```
 Jaeger:
@@ -62,7 +62,7 @@ python VIBRANT_run.py -i input_file.fasta -t 37 -folder vibrant_output
 VirSorter2:
 virsorter run --prep-for-dramv -w virsorter2_output -i input_file.fasta -j 37 --include-groups dsDNAphage,NCLDV,ssDNA,lavidaviridae all
 ```
-Finally, we selected contigs classified as viral by at least 2 methods to further analyses.
+Finally, we selected contigs classified as viral by at least 2 methods to downstream analyses.
 ### Genomes quality assessment
 
 We assessed quality of ancient viral contigs using [CheckV](https://bitbucket.org/berkeleylab/checkv/src/master/) (v.1.0.1) <br>
@@ -104,7 +104,7 @@ At first, we predicted protein-coding genes in ancient viral genomes using [Prod
 prodigal -i ancient_viruses.fasta -a ancient_viruses_proteins.faa -d ancient_viruses_proteins.ffn -p meta -f gff > ancient_viruses_proteins.gff
 ```
 
-Next, we downloaded IMG_VR_2022-09-20_6.1/IMGVR_all_proteins-high_confidence.faa.gz from [IMG/VR](https://genome.jgi.doe.gov/portal/IMG_VR/IMG_VR.home.html) (v.4 high-confidence genomes only) and searched in [DIAMOND](https://github.com/bbuchfink/diamond) (v2.0.15):
+Next, we downloaded IMG_VR_2022-09-20_6.1/IMGVR_all_proteins-high_confidence.faa.gz from [IMG/VR](https://genome.jgi.doe.gov/portal/IMG_VR/IMG_VR.home.html) (v.4 high-confidence genomes only) and searched with modern viral proteins from IMG/VR as a query in [DIAMOND](https://github.com/bbuchfink/diamond) (v2.0.15):
 ```
 gunzip IMGVR_all_proteins-high_confidence.faa.gz
 
