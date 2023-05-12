@@ -142,7 +142,7 @@ We used four computational tools to predict hosts of ancient viral genomes:
 perl RaFAH.pl --predict --genomes_dir aMGVs/ --extension .fasta --file_prefix RaFAH_aMGVs
 ```
 ### Taxonomy assignment, clustering and phylogenetic analysis
-We performed taxonomic assignment of ancient viral genomes using [geNomad](https://cytoscape.org/) (v.1.3.3)
+We performed taxonomic assignment of ancient viral genomes using [geNomad](https://portal.nersc.gov/genomad/) (v.1.3.3)
 
 ```
 genomad download-database .
