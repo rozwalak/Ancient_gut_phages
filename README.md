@@ -12,11 +12,11 @@
 - [Analyses of Mushuvirus mushu genome](#analyses-of-mushuvirus-mushu-genome)
 
 ### Introduction
-This repository is a guide for analyses from publication about de novo assembly of ancient phage genomes.
+This repository is a guide for analyses performed in publication about de novo assembly of ancient phage genomes.
 
 ### Downloading, preprocessing, assembly and authentication
 We prepared snakemake pipeline (snake-download-preprocessing-assembly-authentication) to:
-- downloading 72 Illumina metagenomic libraries of palaeofeces and human gut content samples (see: supplementary table S1)
+- downloading 72 Illumina metagenomic libraries of palaeofeces and human gut content samples (see: Supplementary Table S1)
 - trimming paired-end reads using [Cutadapt](https://github.com/marcelm/cutadapt) (v.4.1)
 - filtering out human DNA using [KneadData](https://github.com/biobakery/kneaddata) (v.0.12.0)
 - assembly reads from samples into contigs using [Metaspades](https://github.com/ablab/spades) (v.3.15.5)
@@ -27,7 +27,7 @@ We prepared snakemake pipeline (snake-download-preprocessing-assembly-authentica
 - quality control in FastQC before and after downloading, Cutadapt, KneadData
 
 
-Metadata in suplementary table S1 is coming from [AncientMetagenomeDir](https://github.com/SPAAM-community/AncientMetagenomeDir), a community curated resource of lists of all published shotgun-sequenced ancient metagenomes.
+Metadata in Suplementary Table S1 is coming from [AncientMetagenomeDir](https://github.com/SPAAM-community/AncientMetagenomeDir), a community curated resource of lists of all published shotgun-sequenced ancient metagenomes.
 
 The first step is installation snakemake following instructions from [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).<br>  
 Then you can download this repository and run our pipeline which automatically create specific environments using conda and download all 72 libraries. 
@@ -46,7 +46,7 @@ snakemake --profile ../config/snakemake/slurm --use-conda
 
 ### Viral contigs identification
 We identified viral sequences in the collection of ancient contigs using three different tools:
-- [Jaeger](https://github.com/Yasas1994/Jaeger)
+- [Jaeger](https://github.com/Yasas1994/Jaeger) (v.1.1.0)
 - [VIBRANT](https://github.com/AnantharamanLab/VIBRANT) (v.1.2.1)
 - [VirSorter2](https://github.com/jiarong/VirSorter2) (v.2.2.3)
 
@@ -72,7 +72,7 @@ checkv download_database ./
 
 checkv end_to_end input_file.fasta output_directory -t 8 -d PATH_to_DB
 ```
-We considered ancient viral genomes classified as complete, high-quality, medium-quality, or fragments longer than 20kb. Additionally, we filtered out sequences with viral genes <= 1 and host genes >= 1 to clean putative contaminants. 
+We considered ancient viral genomes classified as complete, high-quality, medium-quality, or fragments longer than 20kb. Additionally, we filtered out sequences with viral genes <= 1 and host genes >= 1 assigned by CheckV to clean putative contaminants. 
 ```
 python checkv2fasta.py
 ```
@@ -138,7 +138,8 @@ We used four computational tools to predict hosts of ancient viral genomes:
 - [VirHostMatcher-Net](https://github.com/WeiliWw/VirHostMatcher-Net)
 - [RaFAH](https://sourceforge.net/projects/rafah/)
 ```
-do uzupełnienia
+#RaFAH
+perl RaFAH.pl --predict --genomes_dir aMGVs/ --extension .fasta --file_prefix RaFAH_aMGVs
 ```
 ### Taxonomy assignment, clustering and phylogenetic analysis
 We performed taxonomic assignment of ancient viral genomes using [geNomad](https://cytoscape.org/) (v.1.3.3)
