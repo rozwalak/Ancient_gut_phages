@@ -138,6 +138,19 @@ We used four computational tools to predict hosts of ancient viral genomes:
 - [VirHostMatcher-Net](https://github.com/WeiliWw/VirHostMatcher-Net)
 - [RaFAH](https://sourceforge.net/projects/rafah/)
 ```
+#BLAST
+cat hosts/*.fna > blastdb.fna
+
+makeblastdb -in blastdb.fna -dbtype nucl
+
+ls aMGVs/*.fna | xargs -I {} blastn -task blastn -query {} -db blastdb.fna -outfmt 6 -num_threads 16 -out blast/{}.txt
+
+#PHIST
+./phist.py --t 16 aMGVs/ hosts/ phist/
+
+#VirHostMatcher-Net
+./VirHostMatcher-Net.py -t 16 -q aMGVs -o vhm-net/
+
 #RaFAH
 perl RaFAH.pl --predict --genomes_dir aMGVs/ --extension .fasta --file_prefix RaFAH_aMGVs
 ```
@@ -184,5 +197,3 @@ To visualise phylogenetic relationships of genus- and family-level groups, we ge
 ```
 ViPTreeGen --ncpus 24 ancient_viruses_RefSeq_selectedIMGVR.fasta ancient_viruses_RefSeq_selectedIMGVR_VipTree
 ```
-
-### Analyses of Mushuvirus mushu genome
