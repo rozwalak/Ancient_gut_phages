@@ -5,5 +5,5 @@ channels:
   - defaults
   - anaconda
 dependencies:
-  - bowtie2
-  - samtools
+  - bowtie2=2.4.4
+  - samtools=1.12
