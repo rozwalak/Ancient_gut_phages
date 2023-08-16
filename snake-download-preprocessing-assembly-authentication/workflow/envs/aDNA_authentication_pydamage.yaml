@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - pydamage
+  - pydamage=0.70
