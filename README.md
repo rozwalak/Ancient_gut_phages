@@ -9,7 +9,7 @@
 - [Gene-sharing network](#gene-sharing-network)
 - [Host prediction](#host-prediction)
 - [Taxonomy assignment, clustering and phylogenetic analysis](#taxonomy-assignment-clustering-and-phylogenetic-analysis)
-- [Analyses of Mushuvirus mushu genome](#analyses-of-mushuvirus-mushu-genome)
+
 
 ### Introduction
 This repository is a guide for analyses performed in publication about de novo assembly of ancient phage genomes.
