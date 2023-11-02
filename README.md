@@ -41,7 +41,8 @@ git clone https://github.com/rozwalak/Ancient_gut_phages.git
 
 cd Ancient_gut_phages/snake-download-preprocessing-assembly-authentication/workflow
 
-snakemake --profile ../config/snakemake/slurm --use-conda 
+snakemake --profile ../config/snakemake/slurm --use-conda #on slurm cluster
+snakemake --cores 4 --use-conda #on local computer
 ```
 
 ### Viral contigs identification
