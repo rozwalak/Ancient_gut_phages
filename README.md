@@ -41,7 +41,9 @@ git clone https://github.com/rozwalak/Ancient_gut_phages.git
 
 cd Ancient_gut_phages/snake-download-preprocessing-assembly-authentication/workflow
 
-snakemake --profile ../config/snakemake/slurm --use-conda #on slurm cluster
+#run on Slurm cluster, specified parameters in ../config/snakemake/slurm/config.yaml
+snakemake --profile ../config/snakemake/slurm --use-conda
+#run on local computer 
 snakemake --cores 4 --use-conda #on local computer
 ```
 
